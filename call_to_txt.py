@@ -13,8 +13,13 @@ def sendWhatsapp(msg):
   auth_token = os.environ['TWILIO_AUTH_TOKEN']
   client = Client(account_sid, auth_token)
   message = client.messages.create(
-                              body='Hello there!',
+                              body=msg,
                               from_='whatsapp:'+os.environ["TWILIO_WHATSAPP_NO"],
                               to='whatsapp:'+os.environ["PERSONAL_TWILIO_NO"]
                           )
   return message.sid
+
+
+def getCaller(sid):
+  call = client.calls(sid).fetch()
+  return call.From
