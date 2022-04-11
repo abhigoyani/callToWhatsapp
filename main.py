@@ -1,6 +1,6 @@
 from flask import Flask,request
 
-from call_to_txt import conTXT,sendWhatsapp
+from call_to_txt import conTXT,sendWhatsapp,getCaller
 import os
 import json
 from twilio.rest import Client
@@ -36,11 +36,12 @@ def recordSts():
   body = json.loads(request.data)
   if(body.recording_status_callback_event == "completed"):
     msg =  conTXT(body["audio_url"])
+    msg = "Call from : " + getCaller(body['callSid']) + "\n" + msg 
     msgSID = sendWhatsapp(msg)
     
   return json.loads(msgSID)
 
 
-app.run(host="0.0.0.0",port=6969)
+app.run(host="0.0.0.0",port=8888)
 
 
